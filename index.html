@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ALPHA DATA ENTRY SYSTEM - EMPLOYEE PORTAL</title>
+    
+    <!-- Import fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1a1b3b;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            background: #24264a;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            margin: 50px auto;
+            border: 1px solid #3d3f6b;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .login-header h2 span {
+            color: #a384ff;
+        }
+
+        .login-header p {
+            color: #9a9bc7;
+            font-size: 14px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 16px;
+            background: #2e3057;
+            border: 2px solid #3d3f6b;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            transition: all 0.3s;
+        }
+
+        .login-input::placeholder {
+            color: #7a7cb0;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #a384ff;
+            box-shadow: 0 0 0 3px rgba(163, 132, 255, 0.2);
+        }
+
+        .login-btn {
+            background: #a384ff;
+            color: #1a1b3b;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 15px rgba(163, 132, 255, 0.3);
+        }
+
+        .login-btn:hover {
+            background: #b89fff;
+            transform: translateY(-2px);
+        }
+
+        .login-error {
+            color: #ff8a9f;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        .login-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #7a7cb0;
+            font-size: 13px;
+            border-top: 1px solid #3d3f6b;
+            padding-top: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: #24264a;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            margin: 0 auto;
+            display: none;
+            border: 1px solid #3d3f6b;
+        }
+
+        .container.show {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #3d3f6b;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header h1 span {
+            color: #a384ff;
+        }
+
+        .header p {
+            color: #9a9bc7;
+            font-size: 16px;
+        }
+
+        .user-info-bar {
+            background: #2e3057;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #3d3f6b;
+        }
+
+        .welcome-user {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .welcome-user span {
+            color: #a384ff;
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 2px solid #3d3f6b;
+            color: #9a9bc7;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            border-color: #a384ff;
+            color: #a384ff;
+        }
+
+        .dashboard-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: #2e3057;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid #3d3f6b;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: #9a9bc7;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .tab-btn:hover {
+            color: #a384ff;
+            border-color: #3d3f6b;
+        }
+
+        .tab-btn.active {
+            background: #a384ff;
+            color: #1a1b3b;
+            border-color: #a384ff;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background: #2e3057;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #3d3f6b;
+        }
+
+        .dashboard-card.wide {
+            grid-column: span 3;
+        }
+
+        .card-label {
+            color: #9a9bc7;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            color: #a384ff;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .card-small {
+            color: #9a9bc7;
+            font-size: 14px;
+        }
+
+        .warning-text {
+            color: #ff8a9f;
+            font-size: 13px;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 138, 159, 0.1);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .warning-text.show {
+            display: block;
+        }
+
+        .withdraw-form-container {
+            background: #1a1b3b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .withdraw-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .withdraw-field {
+            margin-bottom: 15px;
+        }
+
+        .withdraw-field.full-width {
+            grid-column: span 2;
+        }
+
+        .withdraw-label {
+            color: #9a9bc7;
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .withdraw-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: #2e3057;
+            border: 2px solid #3d3f6b;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .withdraw-input:focus {
+            outline: none;
+            border-color: #a384ff;
+        }
+
+        .withdraw-submit-btn {
+            background: #ff8a9f;
+            color: #1a1b3b;
+            border: none;
+            border-radius: 10px;
+            padding: 16px 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .withdraw-submit-btn:hover {
+            background: #ffa5b5;
+            transform: translateY(-2px);
+        }
+
+        .withdraw-submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .entries-list, .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #1a1b3b;
+            border-radius: 10px;
+            border: 1px solid #3d3f6b;
+        }
+
+        .list-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #3d3f6b;
+            display: flex;
+            justify-content: space-between;
+            color: #ffffff;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item.even {
+            background: #24264a;
+        }
+
+        .list-date {
+            color: #9a9bc7;
+            font-size: 12px;
+        }
+
+        .status-badge {
+            background: #a384ff;
+            color: #1a1b3b;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-badge.paid {
+            background: #4caf50;
+            color: white;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .required-star {
+            color: #ff8a9f;
+            margin-left: 4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #2e3057;
+            border: 2px solid #3d3f6b;
+            border-radius: 12px;
+            font-size: 15px;
+            color: #ffffff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #a384ff;
+        }
+
+        input.error {
+            border-color: #ff8a9f;
+        }
+
+        input[readonly] {
+            background: #1e203b;
+            color: #a384ff;
+        }
+
+        .file-upload-area {
+            border: 3px dashed #a384ff;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            background: #2e3057;
+            cursor: pointer;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { border-color: #a384ff; }
+            50% { border-color: #b89fff; }
+        }
+
+        .file-upload-area:hover {
+            border-color: #ff8a9f;
+            background: #383b68;
+        }
+
+        .file-upload-icon {
+            font-size: 48px;
+            color: #a384ff;
+            margin-bottom: 10px;
+        }
+
+        .file-upload-text {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .file-info {
+            background: #2e3057;
+            border: 2px solid #a384ff;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .remove-file {
+            color: #ff8a9f;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .error-message {
+            color: #ff8a9f;
+            font-size: 12px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            display: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #a384ff;
+            color: #1a1b3b;
+        }
+
+        .btn-primary:hover {
+            background: #b89fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #3d3f6b;
+        }
+
+        .btn-secondary:hover {
+            border-color: #a384ff;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.success {
+            background: #2e3057;
+            color: #a384ff;
+            border: 1px solid #a384ff;
+        }
+
+        .status.error {
+            background: #3d2e40;
+            color: #ff8a9f;
+            border: 1px solid #ff8a9f;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-card.wide {
+                grid-column: span 1;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            .withdraw-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <div class="login-header">
+            <h2>ALPHA <span>SECURE</span></h2>
+            <p>Enter your credentials to access the portal</p>
+        </div>
+
+        <div class="login-form">
+            <input type="text" id="username" class="login-input" placeholder="Username">
+            <input type="password" id="password" class="login-input" placeholder="Password">
+            <button class="login-btn" id="loginBtn">🔐 SIGN IN</button>
+            <div class="login-error" id="loginError">Invalid username or password</div>
+        </div>
+
+        <div class="login-note">
+            <p>Authorized personnel only</p>
+        </div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <h1>ALPHA <span>DATA ENTRY</span></h1>
+            <p>Employee Portal - 1 Entry = 4 PKR</p>
+        </div>
+
+        <div class="user-info-bar">
+            <div class="welcome-user">Welcome, <span id="currentUser">User</span> 👋</div>
+            <button class="logout-btn" id="logoutBtn">🚪 SIGN OUT</button>
+        </div>
+
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" onclick="showSection('form')">📝 DATA ENTRY</button>
+            <button class="tab-btn" onclick="showSection('dashboard')">📊 MY DASHBOARD</button>
+        </div>
+
+        <div id="formSection" class="section active">
+            <form id="dataEntryForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>User ID <span class="required-star">*</span></label>
+                        <input type="text" id="userId" name="userId" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Time Stamp <span class="required-star">*</span></label>
+                        <input type="text" id="timestamp" name="timestamp" readonly>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Full Name <span class="required-star">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Enter full name" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>FIR Number <span class="required-star">*</span></label>
+                        <input type="text" id="firNo" name="firNo" placeholder="Enter FIR number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Age <span class="required-star">*</span></label>
+                        <input type="number" id="age" name="age" placeholder="Enter age" min="1" max="120" required>
+                        <div class="error-message" id="ageError">Age must be 45 or above</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone <span class="required-star">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="10-digit number" pattern="[0-9]{10}" maxlength="10" required>
+                        <div class="error-message" id="phoneError">Valid 10-digit phone required</div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Location <span class="required-star">*</span></label>
+                        <input type="text" id="location" name="location" placeholder="Enter location" required>
+                    </div>
+
+                    <div class="form-group full-width" id="pdfUploadSection" style="display: none;">
+                        <label>VERIFICATION REQUIRED <span class="required-star">*</span></label>
+                        <div class="file-upload-area" onclick="document.getElementById('pdfFile').click()">
+                            <div class="file-upload-icon">📄</div>
+                            <div class="file-upload-text">ATTACH FIR PDF</div>
+                        </div>
+                        <input type="file" id="pdfFile" accept=".pdf" style="display: none;">
+                        <div id="fileInfo" style="display: none;"></div>
+                        <div class="error-message" id="pdfError">PDF required for verification</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">📤 SUBMIT ENTRY</button>
+                    <button type="button" class="btn btn-secondary" id="resetBtn">🔄 RESET</button>
+                </div>
+            </form>
+
+            <div class="status" id="statusMessage"></div>
+        </div>
+
+        <div id="dashboardSection" class="section">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-label">💰 CURRENT BALANCE</div>
+                    <div class="card-value" id="balanceDisplay">0 PKR</div>
+                    <div class="card-small" id="entriesCount">(0 entries)</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-label">📅 WITHDRAWALS THIS MONTH</div>
+                    <div class="card-value" id="withdrawalsCount">0/3</div>
+                    <div class="card-small" id="nextEligible">Next: -</div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-label">⚡ WITHDRAWAL STATUS</div>
+                    <div class="card-value" id="withdrawStatus">Eligible</div>
+                    <div class="card-small">No minimum limit</div>
+                </div>
+
+                <div class="dashboard-card wide">
+                    <div class="card-label">💸 REQUEST WITHDRAWAL</div>
+                    <div class="withdraw-form-container">
+                        <div class="withdraw-form-grid">
+                            <div class="withdraw-field full-width">
+                                <label class="withdraw-label">Withdrawal Amount (PKR)</label>
+                                <input type="number" id="withdrawAmount" class="withdraw-input" placeholder="Enter amount">
+                            </div>
+                            
+                            <div class="withdraw-field">
+                                <label class="withdraw-label">Account Holder Name</label>
+                                <input type="text" id="accountHolder" class="withdraw-input" placeholder="Full name as per bank">
+                            </div>
+                            
+                            <div class="withdraw-field">
+                                <label class="withdraw-label">Bank Name</label>
+                                <input type="text" id="bankName" class="withdraw-input" placeholder="e.g., HBL, UBL, etc.">
+                            </div>
+                            
+                            <div class="withdraw-field">
+                                <label class="withdraw-label">Account Number</label>
+                                <input type="text" id="accountNumber" class="withdraw-input" placeholder="Your account number">
+                            </div>
+                            
+                            <div class="withdraw-field">
+                                <label class="withdraw-label">IBAN (Optional)</label>
+                                <input type="text" id="iban" class="withdraw-input" placeholder="IBAN if available">
+                            </div>
+                            
+                            <div class="withdraw-field full-width">
+                                <label class="withdraw-label">Additional Notes</label>
+                                <input type="text" id="withdrawNotes" class="withdraw-input" placeholder="Any special instructions">
+                            </div>
+                        </div>
+                        
+                        <button class="withdraw-submit-btn" id="withdrawBtn" onclick="requestWithdrawal()">SUBMIT WITHDRAWAL REQUEST</button>
+                        
+                        <div class="warning-text" id="warning1">⚠️ You can only withdraw 3 times per month</div>
+                        <div class="warning-text" id="warning2">⚠️ After submission, you cannot withdraw for 7 days</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card wide">
+                    <div class="card-label">📋 RECENT ENTRIES</div>
+                    <div class="entries-list" id="recentEntriesList">
+                        <div class="list-item">No entries yet</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card wide">
+                    <div class="card-label">📜 WITHDRAWAL HISTORY</div>
+                    <div class="history-list" id="withdrawalHistory">
+                        <div class="list-item">No withdrawal history</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ✅ YOUR GOOGLE SCRIPT URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDNkIV0e0bwaEwIIbzdpkN3iI2HVHsGXwAioljl7EOCSyiMORBmp_bsAY02k80JQHbAQ/exec';
+
+        const AUTHORIZED_USERS = [
+            'DataCloud1', 'DataCloud2', 'DataCloud3', 'DataCloud4', 'DataCloud5',
+            'DataCloud6', 'DataCloud7', 'DataCloud8', 'DataCloud9', 'DataCloud10'
+        ];
+        const PASSWORD = 'Alpha1234';
+        
+        const PKR_PER_ENTRY = 4;
+
+        (function clearAllPreviousData() {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.includes('_entryCount') || key.includes('_entries') || 
+                    key.includes('_nextVerification') || key.includes('_requiresVerification') ||
+                    key.includes('_withdrawals')) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+        })();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginBtn').addEventListener('click', handleLogin);
+            document.getElementById('username').addEventListener('keypress', e => e.key === 'Enter' && handleLogin());
+            document.getElementById('password').addEventListener('keypress', e => e.key === 'Enter' && handleLogin());
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            document.getElementById('pdfFile').addEventListener('change', handleFileSelect);
+            document.getElementById('resetBtn').addEventListener('click', () => resetForm(localStorage.getItem('loggedInUser')));
+            document.getElementById('dataEntryForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleSubmit(e, localStorage.getItem('loggedInUser'));
+            });
+            
+            // Auto-refresh dashboard every 30 seconds
+            setInterval(() => {
+                if (document.getElementById('dashboardSection').classList.contains('active')) {
+                    loadDashboardData(localStorage.getItem('loggedInUser'));
+                }
+            }, 30000);
+        });
+
+        function handleLogin() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (AUTHORIZED_USERS.includes(username) && password === PASSWORD) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('loggedInUser', username);
+                localStorage.setItem(`${username}_entryCount`, '0');
+                
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('mainContainer').classList.add('show');
+                document.getElementById('currentUser').textContent = username;
+                document.getElementById('userId').value = username;
+                
+                updateTimestamp();
+                loadDashboardData(username);
+                checkVerification(username);
+                document.getElementById('loginError').classList.remove('show');
+            } else {
+                document.getElementById('loginError').classList.add('show');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('loggedInUser');
+            document.getElementById('mainContainer').classList.remove('show');
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            
+            if (section === 'form') {
+                document.querySelector('[onclick="showSection(\'form\')"]').classList.add('active');
+                document.getElementById('formSection').classList.add('active');
+            } else {
+                document.querySelector('[onclick="showSection(\'dashboard\')"]').classList.add('active');
+                document.getElementById('dashboardSection').classList.add('active');
+                loadDashboardData(localStorage.getItem('loggedInUser'));
+            }
+        }
+
+        // ===== UPDATED: loadDashboardData with Google Sheet data =====
+        async function loadDashboardData(username) {
+            if (!username) return;
+            
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?user=${username}`);
+                const data = await response.json();
+                
+                if (data) {
+                    const balance = data.balance || 0;
+                    const totalEntries = data.totalEntries || 0;
+                    
+                    document.getElementById('balanceDisplay').textContent = balance + ' PKR';
+                    document.getElementById('entriesCount').textContent = `(${totalEntries} entries)`;
+                    
+                    // Update withdrawal history from Google Sheets
+                    if (data.withdrawals) {
+                        displayWithdrawalHistory(data.withdrawals);
+                    }
+                    
+                    // Update recent entries
+                    if (data.recentEntries) {
+                        displayRecentEntries(data.recentEntries);
+                    }
+                    
+                    // Check withdrawal eligibility from Google Sheets data
+                    await checkWithdrawalEligibility(username);
+                }
+            } catch (error) {
+                console.log('Error fetching from Google Sheets:', error);
+                // Fallback to localStorage
+                const entries = JSON.parse(localStorage.getItem(`${username}_entries`) || '[]');
+                const totalEntries = entries.length;
+                const balance = totalEntries * PKR_PER_ENTRY;
+                
+                document.getElementById('balanceDisplay').textContent = balance + ' PKR';
+                document.getElementById('entriesCount').textContent = `(${totalEntries} entries)`;
+                displayRecentEntries(entries);
+                displayWithdrawalHistory(username);
+                checkWithdrawalEligibility(username);
+            }
+        }
+
+        // ===== UPDATED: checkWithdrawalEligibility using Google Sheet data =====
+        async function checkWithdrawalEligibility(username) {
+            const withdrawBtn = document.getElementById('withdrawBtn');
+            const warning1 = document.getElementById('warning1');
+            const warning2 = document.getElementById('warning2');
+            
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?user=${username}`);
+                const data = await response.json();
+                
+                if (data && data.withdrawals) {
+                    const withdrawals = data.withdrawals;
+                    const thisMonth = new Date().toISOString().slice(0,7);
+                    
+                    // Count only this month's withdrawals (ALL statuses)
+                    const monthlyCount = withdrawals.filter(w => {
+                        const wDate = Array.isArray(w) ? w[2] : w.date;
+                        return wDate && wDate.slice(0,7) === thisMonth;
+                    }).length;
+                    
+                    document.getElementById('withdrawalsCount').textContent = monthlyCount + '/3';
+                    
+                    // Check last withdrawal date for 7-day gap
+                    if (withdrawals.length > 0) {
+                        // Sort withdrawals by date (newest first)
+                        const sortedWithdrawals = [...withdrawals].sort((a, b) => {
+                            const dateA = Array.isArray(a) ? new Date(a[2]) : new Date(a.date);
+                            const dateB = Array.isArray(b) ? new Date(b[2]) : new Date(b.date);
+                            return dateB - dateA;
+                        });
+                        
+                        const lastWithdraw = sortedWithdrawals[0];
+                        const lastDate = Array.isArray(lastWithdraw) ? new Date(lastWithdraw[2]) : new Date(lastWithdraw.date);
+                        const today = new Date();
+                        const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+                        
+                        if (monthlyCount >= 3) {
+                            withdrawBtn.disabled = true;
+                            warning1.classList.add('show');
+                            document.getElementById('withdrawStatus').textContent = 'Max 3 reached';
+                        } else if (diffDays < 7) {
+                            withdrawBtn.disabled = true;
+                            warning2.classList.add('show');
+                            document.getElementById('withdrawStatus').textContent = `${7-diffDays} days left`;
+                        } else {
+                            withdrawBtn.disabled = false;
+                            warning1.classList.remove('show');
+                            warning2.classList.remove('show');
+                            document.getElementById('withdrawStatus').textContent = 'Eligible';
+                        }
+                    } else {
+                        withdrawBtn.disabled = false;
+                        document.getElementById('withdrawalsCount').textContent = '0/3';
+                        document.getElementById('withdrawStatus').textContent = 'Eligible';
+                    }
+                }
+            } catch (error) {
+                console.log('Error fetching withdrawal data:', error);
+                // Fallback to localStorage
+                fallbackWithdrawalCheck(username);
+            }
+        }
+
+        // ===== FALLBACK: localStorage se check karo agar Google Sheet fail ho jaye =====
+        function fallbackWithdrawalCheck(username) {
+            const withdrawBtn = document.getElementById('withdrawBtn');
+            const warning1 = document.getElementById('warning1');
+            const warning2 = document.getElementById('warning2');
+            
+            const withdrawals = JSON.parse(localStorage.getItem(`${username}_withdrawals`) || '[]');
+            const thisMonth = new Date().toISOString().slice(0,7);
+            const monthlyCount = withdrawals.filter(w => w.month === thisMonth).length;
+            
+            document.getElementById('withdrawalsCount').textContent = monthlyCount + '/3';
+            
+            if (monthlyCount >= 3) {
+                withdrawBtn.disabled = true;
+                warning1.classList.add('show');
+                document.getElementById('withdrawStatus').textContent = 'Max 3 reached';
+            } else {
+                if (withdrawals.length > 0) {
+                    const lastWithdraw = new Date(withdrawals[withdrawals.length-1].date);
+                    const today = new Date();
+                    const diffDays = Math.floor((today - lastWithdraw) / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays < 7) {
+                        withdrawBtn.disabled = true;
+                        warning2.classList.add('show');
+                        document.getElementById('withdrawStatus').textContent = `${7-diffDays} days left`;
+                    } else {
+                        withdrawBtn.disabled = false;
+                        warning1.classList.remove('show');
+                        warning2.classList.remove('show');
+                        document.getElementById('withdrawStatus').textContent = 'Eligible';
+                    }
+                } else {
+                    withdrawBtn.disabled = false;
+                    document.getElementById('withdrawStatus').textContent = 'Eligible';
+                }
+            }
+        }
+
+        // ===== UPDATED: displayWithdrawalHistory =====
+        function displayWithdrawalHistory(data) {
+            const list = document.getElementById('withdrawalHistory');
+            if (!list) return;
+            
+            let withdrawals = [];
+            
+            // Check if data is array (from Google Sheets) or string (username)
+            if (Array.isArray(data)) {
+                withdrawals = data;
+            } else {
+                // It's a username, get from localStorage
+                withdrawals = JSON.parse(localStorage.getItem(`${data}_withdrawals`) || '[]');
+            }
+            
+            if (!withdrawals || withdrawals.length === 0) {
+                list.innerHTML = '<div class="list-item">No withdrawal history</div>';
+                return;
+            }
+            
+            let html = '';
+            withdrawals.slice(-5).reverse().forEach((w, index) => {
+                let date, amount, status;
+                
+                if (Array.isArray(w)) {
+                    // Data from Google Sheets
+                    date = new Date(w[2]).toLocaleDateString('en-PK');
+                    amount = w[3] || 0;
+                    status = w[9] || 'Pending';
+                } else {
+                    // Data from localStorage
+                    date = new Date(w.date).toLocaleDateString('en-PK');
+                    amount = w.amount || 0;
+                    status = w.status || 'Pending';
+                }
+                
+                const statusClass = status.toLowerCase() === 'approved' || status.toLowerCase() === 'paid' ? 'paid' : '';
+                
+                html += `
+                    <div class="list-item ${index % 2 === 0 ? 'even' : ''}">
+                        <span>${date} - ${amount} PKR</span>
+                        <span class="status-badge ${statusClass}">${status}</span>
+                    </div>
+                `;
+            });
+            
+            list.innerHTML = html;
+        }
+
+        function displayRecentEntries(entries) {
+            const list = document.getElementById('recentEntriesList');
+            
+            if (!entries || entries.length === 0) {
+                list.innerHTML = '<div class="list-item">No entries yet</div>';
+                return;
+            }
+            
+            let html = '';
+            entries.slice(0, 5).forEach((entry, index) => {
+                const name = entry.name || entry[2] || '';
+                const timestamp = entry.timestamp || entry[1] || '';
+                const entryNum = entry.entryNumber || entry[0] || '';
+                
+                html += `
+                    <div class="list-item ${index % 2 === 0 ? 'even' : ''}">
+                        <span>#${entryNum} - ${name}</span>
+                        <span class="list-date">${timestamp}</span>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        async function requestWithdrawal() {
+            const username = localStorage.getItem('loggedInUser');
+            
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
+            const accountHolder = document.getElementById('accountHolder').value.trim();
+            const bankName = document.getElementById('bankName').value.trim();
+            const accountNumber = document.getElementById('accountNumber').value.trim();
+            const iban = document.getElementById('iban').value.trim();
+            const notes = document.getElementById('withdrawNotes').value.trim();
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            if (!accountHolder || !bankName || !accountNumber) {
+                alert('Please fill all required bank details');
+                return;
+            }
+            
+            const balanceText = document.getElementById('balanceDisplay').textContent;
+            const balance = parseInt(balanceText.replace(' PKR', ''));
+            
+            if (amount > balance) {
+                alert('Insufficient balance');
+                return;
+            }
+            
+            const withdrawalData = {
+                type: 'withdrawal',
+                userId: username,
+                enteredBy: username,
+                amount: amount,
+                accountHolder: accountHolder,
+                bankName: bankName,
+                accountNumber: accountNumber,
+                iban: iban || '',
+                notes: notes || '',
+                timestamp: new Date().toISOString()
+            };
+            
+            if (confirm(`Submit withdrawal request for ${amount} PKR?`)) {
+                try {
+                    const params = new URLSearchParams(withdrawalData);
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: params
+                    });
+                    
+                    // Save locally for immediate display
+                    const withdrawals = JSON.parse(localStorage.getItem(`${username}_withdrawals`) || '[]');
+                    withdrawals.push({
+                        date: new Date().toISOString(),
+                        amount: amount,
+                        month: new Date().toISOString().slice(0,7),
+                        status: 'Pending'
+                    });
+                    localStorage.setItem(`${username}_withdrawals`, JSON.stringify(withdrawals));
+                    
+                    alert(`✅ Withdrawal request submitted!\n\nAmount: ${amount} PKR\nBank: ${bankName}\nStatus: Pending`);
+                    
+                    document.getElementById('withdrawAmount').value = '';
+                    document.getElementById('accountHolder').value = '';
+                    document.getElementById('bankName').value = '';
+                    document.getElementById('accountNumber').value = '';
+                    document.getElementById('iban').value = '';
+                    document.getElementById('withdrawNotes').value = '';
+                    
+                    await loadDashboardData(username);
+                    
+                } catch (error) {
+                    alert('Error submitting request. Please try again.');
+                }
+            }
+        }
+
+        function checkVerification(username) {
+            const entryCount = parseInt(localStorage.getItem(`${username}_entryCount`) || '0');
+            const nextVerification = parseInt(localStorage.getItem(`${username}_nextVerification`) || 
+                (Math.floor(Math.random() * 11) + 40).toString());
+            
+            if (!localStorage.getItem(`${username}_nextVerification`)) {
+                localStorage.setItem(`${username}_nextVerification`, nextVerification.toString());
+            }
+            
+            if (entryCount + 1 === nextVerification) {
+                document.getElementById('pdfUploadSection').style.display = 'block';
+                localStorage.setItem(`${username}_requiresVerification`, 'true');
+            }
+        }
+
+        function validateAge() {
+            const age = parseInt(document.getElementById('age').value);
+            const ageError = document.getElementById('ageError');
+            
+            if (age < 45) {
+                ageError.style.display = 'flex';
+                document.getElementById('age').classList.add('error');
+                return false;
+            } else {
+                ageError.style.display = 'none';
+                document.getElementById('age').classList.remove('error');
+                return true;
+            }
+        }
+
+        function validatePhone() {
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^[0-9]{10}$/;
+            
+            if (!phoneRegex.test(phone)) {
+                document.getElementById('phoneError').style.display = 'flex';
+                document.getElementById('phone').classList.add('error');
+                return false;
+            } else {
+                document.getElementById('phoneError').style.display = 'none';
+                document.getElementById('phone').classList.remove('error');
+                return true;
+            }
+        }
+
+        async function handleSubmit(e, username) {
+            e.preventDefault();
+            
+            if (!validateAge() || !validatePhone()) return;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '⏳ SUBMITTING...';
+            
+            let entryCount = parseInt(localStorage.getItem(`${username}_entryCount`) || '0');
+            const newEntryCount = entryCount + 1;
+            
+            const formData = {
+                userId: username,
+                entryNumber: newEntryCount,
+                timestamp: document.getElementById('timestamp').value,
+                name: document.getElementById('name').value,
+                firNo: document.getElementById('firNo').value,
+                age: document.getElementById('age').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                enteredBy: username
+            };
+
+            try {
+                const params = new URLSearchParams(formData);
+                await fetch(GOOGLE_SCRIPT_URL, { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    body: params 
+                });
+                
+                localStorage.setItem(`${username}_entryCount`, newEntryCount.toString());
+                
+                let entries = JSON.parse(localStorage.getItem(`${username}_entries`) || '[]');
+                entries.unshift(formData);
+                localStorage.setItem(`${username}_entries`, JSON.stringify(entries));
+                
+                const statusEl = document.getElementById('statusMessage');
+                statusEl.className = 'status show success';
+                statusEl.textContent = '✓ Entry submitted! +4 PKR added';
+                
+                resetForm(username);
+                await loadDashboardData(username);
+                
+                setTimeout(() => {
+                    statusEl.classList.remove('show');
+                }, 3000);
+                
+            } catch (error) {
+                const statusEl = document.getElementById('statusMessage');
+                statusEl.className = 'status show error';
+                statusEl.textContent = '⚠ Error submitting';
+            }
+            
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '📤 SUBMIT ENTRY';
+        }
+
+        function updateTimestamp() {
+            const now = new Date();
+            const timestamp = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+            document.getElementById('timestamp').value = timestamp;
+        }
+
+        function resetForm(username) {
+            document.getElementById('name').value = '';
+            document.getElementById('firNo').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('pdfFile').value = '';
+            document.getElementById('fileInfo').style.display = 'none';
+            updateTimestamp();
+            
+            const requiresVerification = localStorage.getItem(`${username}_requiresVerification`) === 'true';
+            if (requiresVerification) {
+                document.getElementById('pdfUploadSection').style.display = 'block';
+            } else {
+                document.getElementById('pdfUploadSection').style.display = 'none';
+            }
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            const pdfError = document.getElementById('pdfError');
+            
+            if (file) {
+                if (file.type !== 'application/pdf') {
+                    pdfError.style.display = 'flex';
+                    pdfError.textContent = 'Only PDF files allowed';
+                    document.getElementById('pdfFile').value = '';
+                    return;
+                }
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    pdfError.style.display = 'flex';
+                    pdfError.textContent = 'File size must be less than 5MB';
+                    document.getElementById('pdfFile').value = '';
+                    return;
+                }
+                
+                pdfError.style.display = 'none';
+                document.getElementById('fileInfo').style.display = 'block';
+                document.getElementById('fileInfo').innerHTML = `
+                    <div class="file-info">
+                        <span>📄 ${file.name}</span>
+                        <span class="remove-file" onclick="removeFile()">✕</span>
+                    </div>
+                `;
+            }
+        }
+
+        function removeFile() {
+            document.getElementById('pdfFile').value = '';
+            document.getElementById('fileInfo').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
