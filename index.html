@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* [All your existing CSS styles remain exactly the same] */
         * {
             margin: 0;
             padding: 0;
@@ -783,11 +784,19 @@
         // ✅ YOUR GOOGLE SCRIPT URL
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDNkIV0e0bwaEwIIbzdpkN3iI2HVHsGXwAioljl7EOCSyiMORBmp_bsAY02k80JQHbAQ/exec';
 
-        const AUTHORIZED_USERS = [
-            'DataCloud1', 'DataCloud2', 'DataCloud3', 'DataCloud4', 'DataCloud5',
-            'DataCloud6', 'DataCloud7', 'DataCloud8', 'DataCloud9', 'DataCloud10'
-        ];
-        const PASSWORD = 'Alpha1234';
+        // ✅ AUTHORIZED USERS WITH INDIVIDUAL PASSWORDS
+        const AUTHORIZED_USERS = {
+            'DataCloud1': 'Alpha1234',
+            'DataCloud2': 'Beta5678',
+            'DataCloud3': 'Gamma9101',
+            'DataCloud4': 'Delta1122',
+            'DataCloud5': 'Epsilon3344',
+            'DataCloud6': 'Zeta5566',
+            'DataCloud7': 'Eta7788',
+            'DataCloud8': 'Theta9900',
+            'DataCloud9': 'Iota1230',
+            'DataCloud10': 'Kappa4560'
+        };
         
         const PKR_PER_ENTRY = 4;
 
@@ -828,7 +837,8 @@
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
             
-            if (AUTHORIZED_USERS.includes(username) && password === PASSWORD) {
+            // ✅ Check if user exists and password matches
+            if (AUTHORIZED_USERS[username] && AUTHORIZED_USERS[username] === password) {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('loggedInUser', username);
                 localStorage.setItem(`${username}_entryCount`, '0');
@@ -870,7 +880,11 @@
             }
         }
 
-        // ===== UPDATED: loadDashboardData with Google Sheet data =====
+        // [All other functions remain exactly the same - loadDashboardData, checkWithdrawalEligibility, 
+        // fallbackWithdrawalCheck, displayWithdrawalHistory, displayRecentEntries, requestWithdrawal, 
+        // checkVerification, validateAge, validatePhone, handleSubmit, updateTimestamp, resetForm, 
+        // handleFileSelect, removeFile]
+        
         async function loadDashboardData(username) {
             if (!username) return;
             
@@ -913,7 +927,6 @@
             }
         }
 
-        // ===== UPDATED: checkWithdrawalEligibility using Google Sheet data =====
         async function checkWithdrawalEligibility(username) {
             const withdrawBtn = document.getElementById('withdrawBtn');
             const warning1 = document.getElementById('warning1');
@@ -976,7 +989,6 @@
             }
         }
 
-        // ===== FALLBACK: localStorage se check karo agar Google Sheet fail ho jaye =====
         function fallbackWithdrawalCheck(username) {
             const withdrawBtn = document.getElementById('withdrawBtn');
             const warning1 = document.getElementById('warning1');
@@ -1015,7 +1027,6 @@
             }
         }
 
-        // ===== UPDATED: displayWithdrawalHistory =====
         function displayWithdrawalHistory(data) {
             const list = document.getElementById('withdrawalHistory');
             if (!list) return;
